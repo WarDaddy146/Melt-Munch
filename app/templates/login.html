@@ -1,0 +1,51 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Melt&Munch Login</title>
+</head>
+<body>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="login-container">
+        <h1>LOGIN</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        <div class="input-group">
+            <label for="username">USERNAME</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+        </div>
+        
+        <div class="input-group">
+            <label for="password">PASSWORD</label>
+            <input type="password" id="password" name="password" placeholder="••••••••">
+        </div>
+        
+        <button type="submit">LOG IN</button>
+        
+        <div class="footer">
+            Don't have an account? <a href="{% url 'signup' %}">Sign up</a>
+        </div>
+    </div>
+    </form>
+    
+</body>
+</html>
+

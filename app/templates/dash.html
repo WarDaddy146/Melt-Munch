@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dash.css' %}">
+    
+</head>
+<body>
+    <div class="header">
+    <div class="logo-section">
+        <img src="{% static 'images/mnm_logo.jpg' %}" class="logo-img">
+    </div>
+    <div>    
+        <h1>Handmade, Heartfelt</h1>
+    </div>
+    <div class="user-info">
+        <span>Welcome, {{ username }}!</span>
+        <a href="{% url 'cart' %}" class="nav-btn">My Cart</a>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
+</div>
+
+    <div class="container">
+        <div class="dashboard-nav">
+            <a href="?view=products" class="nav-btn {% if current_view == 'products' or not current_view %}active{% endif %}">
+                View Products
+            </a>
+            <a href="?view=myproducts" class="nav-btn {% if current_view == 'myproducts' %}active{% endif %}">
+                Favourite Products
+            </a>
+        </div>
+
+        <div class="content-section">
+            {% if current_view == 'myproducts' %}
+                <h2>Favourite Products</h2>
+                {% if favorite_products %}
+                    <div class="product-grid">
+                        {% for product in favorite_products %}
+                            <div class="product-card">
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.description }}</p>
+                                <div class="product-price">₹ {{ product.price }}/ unit*</div>
+                                <div class="product-actions">
+                                    <form method="post" action="{% url 'toggle_favorite' product.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="favorite-btn favorited" title="Remove from favorites">
+                                            ❤️
+                                        </button>
+                                    </form>
+                                    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+                                </div>
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-products">
+                        You haven't added any favourite products yet! <a href="?view=products">Browse products</a>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <h2>All Products</h2>
+                {% if products %}
+                    <div class="product-grid">
+                        {% for product in products %}
+                            <div class="product-card">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                                {% else %}
+                                    <div class="no-image">📷 No Image</div>
+                                {% endif %}
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.description }}</p>
+                                <div class="product-price">₹ {{ product.price }}/ unit*</div>
+                                <div class="product-actions">
+                                    <form method="post" action="{% url 'toggle_favorite' product.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        {% if product.id in user_favorites %}
+                                            <button type="submit" class="favorite-btn favorited" title="Remove from favorites">
+                                                ❤️
+                                            </button>
+                                        {% else %}
+                                            <button type="submit" class="favorite-btn" title="Add to favorites">
+                                                🤍
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-products">
+                        No items available yet! Kindly wait while we restock our inventory.
+                        Any inconvenience caused is regretted.
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+
+
+</body>
+<footer align="center">* A single Unit implies to 250 grams.</footer>
+</html>

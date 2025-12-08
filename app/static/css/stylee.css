@@ -1,0 +1,175 @@
+/* Enhanced Contrast Home Variables */
+:root {
+    --soft-cream: #f8f6f0;
+    --warm-beige: #f0ede6;
+    --muted-sage: #8b9472;
+    --dusty-brown: #7a5f52;
+    --charcoal: #2d2d2d;
+    --deep-brown: #5c453a;
+    --soft-white: #ffffff;
+    --gentle-shadow: rgba(122, 95, 82, 0.15);
+    --border-light: rgba(122, 95, 82, 0.25);
+    --accent-sage: #6b7a5a;
+    --text-muted: #5a5a5a;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Container with Background Image */
+.container {
+    background: linear-gradient(135deg, 
+        rgba(248, 246, 240, 0.95) 0%, 
+        rgba(240, 237, 230, 0.95) 50%, 
+        rgba(212, 214, 200, 0.95) 100%),
+        url('../images/home_bg.jpg');
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+/* Hero Content Box */
+.content-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 4rem 3rem;
+    border-radius: 24px;
+    text-align: center;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 20px 60px var(--gentle-shadow);
+    border: 1px solid var(--border-light);
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.content-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-sage), var(--dusty-brown));
+}
+
+.content-box h1 {
+    color: var(--charcoal);
+    font-size: 3.5rem;
+    margin-bottom: 3rem;
+    font-weight: 200;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--charcoal) 0%, var(--dusty-brown) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Button Group Container */
+.button-group {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Elegant Button Styles */
+.btn1, .btn {
+    padding: 1rem 2.5rem;
+    background: var(--dusty-brown);
+    color: var(--soft-white);
+    border: none;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: none;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px var(--gentle-shadow);
+}
+
+.btn1::before, .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.btn1:hover::before, .btn:hover::before {
+    left: 100%;
+}
+
+.btn1:hover, .btn:hover {
+    background: var(--charcoal);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--gentle-shadow);
+}
+
+.btn1:active, .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px var(--gentle-shadow);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        background-attachment: scroll;
+    }
+    
+    .content-box {
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+    }
+    
+    .content-box h1 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .btn1, .btn {
+        width: 100%;
+        padding: 1.2rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-box h1 {
+        font-size: 2rem;
+    }
+    
+    .content-box {
+        padding: 2rem 1.5rem;
+    }
+}
