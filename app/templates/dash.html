@@ -90,7 +90,7 @@
                                             </button>
                                         {% endif %}
                                     </form>
-                                    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">Add to Cart</a>
+                                    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn" onclick="alert('Added {{ product.name }} to cart!')">Add to Cart</a>
                                 </div>
                             </div>
                         {% endfor %}

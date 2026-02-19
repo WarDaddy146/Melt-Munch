@@ -1,0 +1,1050 @@
+================================================================================
+               MELTNMUNCH (MNM) - COMPLETE DESIGN GUIDE & BLUEPRINT
+================================================================================
+
+PROJECT OVERVIEW
+================================================================================
+
+Project Name: MeltnMunch (MNM)
+Type: E-commerce Web Application for Handmade Bakery Products
+Framework: Django 5.2.8
+Frontend: HTML5, CSS3, Vanilla JavaScript
+Database: SQLite3
+Target: Desktop and Mobile Responsive Design
+
+Purpose:
+A boutique e-commerce platform for selling handmade bakery products including
+cookies, cakes, breads, pastries, chocolates, and celebration items.
+
+
+================================================================================
+DESIGN SYSTEM
+================================================================================
+
+COLOR PALETTE
+--------------------------------------------------------------------------------
+The design follows a warm, earthy, artisanal aesthetic with the following
+color variables:
+
+Primary Colors:
+  - soft-cream: #f8f6f0         (Primary background, light areas)
+  - warm-beige: #f0ede6         (Secondary background)
+  - muted-sage: #8b9472         (Accent color, subtle highlights)
+  - dusty-brown: #7a5f52        (Primary action color, buttons)
+  - charcoal: #2d2d2d           (Primary text, headings)
+  - deep-brown: #5c453a         (Secondary text, subheadings)
+  - soft-white: #ffffff         (Cards, containers)
+
+Effects & Shadows:
+  - gentle-shadow: rgba(122, 95, 82, 0.15)    (Box shadows)
+  - border-light: rgba(122, 95, 82, 0.25)     (Borders)
+
+Accent & Utility:
+  - accent-sage: #6b7a5a        (Secondary accent)
+  - text-muted: #5a5a5a         (Helper text, descriptions)
+  - error-red: #d63031          (Error messages)
+  - success-green: #00b894      (Success messages)
+
+
+COLOR USAGE GUIDELINES
+--------------------------------------------------------------------------------
+1. Primary Actions (Login, Signup, Add to Cart): dusty-brown (#7a5f52)
+2. Secondary Actions (Back, Cancel): muted-sage (#8b9472)
+3. Backgrounds: Gradient from soft-cream to warm-beige
+4. Text Hierarchy:
+   - Headers: charcoal (#2d2d2d)
+   - Body: deep-brown (#5c453a)
+   - Muted: text-muted (#5a5a5a)
+5. Cards/Containers: soft-white with gentle-shadow
+6. Borders: border-light for subtle separation
+
+
+TYPOGRAPHY
+--------------------------------------------------------------------------------
+Font Family:
+  'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif
+
+Font Sizes:
+  - Hero Heading (Home): 3.5rem (56px), font-weight: 200
+  - Page Titles: 2rem (32px), font-weight: 300
+  - Section Headers: 1.8rem (28.8px), font-weight: 200
+  - Body Text: 1rem (16px), font-weight: 400
+  - Small Text: 0.9rem (14.4px), font-weight: 400
+  - Labels: 0.9rem, font-weight: 500
+
+Text Styling:
+  - Letter spacing: -0.5px to -1px for headings
+  - Line height: 1.6 for body text
+  - Gradient text effect on main headings using background-clip: text
+
+
+LAYOUT PRINCIPLES
+--------------------------------------------------------------------------------
+1. Maximum Width: 1200px for content containers
+2. Padding: 2rem standard, 1.5rem mobile
+3. Border Radius:
+   - Cards: 16px-24px
+   - Buttons: 12px
+   - Inputs: 12px
+4. Shadows:
+   - Hover: 0 12px 40px var(--gentle-shadow)
+   - Rest: 0 8px 30px var(--gentle-shadow)
+5. Transitions: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+
+
+VISUAL EFFECTS
+--------------------------------------------------------------------------------
+1. Backdrop Blur: blur(20px) saturate(180%)
+2. Gradient Overlays: Applied to background images at 95% opacity
+3. Top Border Accent: 3-4px gradient bar on card tops
+4. Hover Animations:
+   - Transform: translateY(-1px) to translateY(-4px)
+   - Enhanced shadow on elevation
+
+
+================================================================================
+PAGES STRUCTURE
+================================================================================
+
+1. HOME PAGE (home.html)
+--------------------------------------------------------------------------------
+Route: / or /home/
+Template: app/templates/home.html
+Stylesheet: app/static/css/stylee.css
+Authentication: Public (no login required)
+
+Components:
+  - Hero Section:
+    * Full viewport height background image
+    * Gradient overlay (soft-cream to warm-beige, 95% opacity)
+    * Centered content box with backdrop blur
+    * Welcome heading with gradient text effect
+    * Two action buttons (Login & Signup)
+
+Layout Structure:
+  <div class="container">
+    <div class="content-box">
+      <h1>Welcome</h1>
+      <div class="button-group">
+        <button class="btn1">Login!!!</button>
+        <button class="btn">Signup!!!</button>
+      </div>
+    </div>
+  </div>
+
+Styling Details:
+  - Background: home_bg.jpg with gradient overlay
+  - Content box: White with glassmorphism effect
+  - Buttons: Dusty brown primary color, full width on mobile
+  - Hover: Scale and shadow effects
+
+
+2. LOGIN PAGE (login.html)
+--------------------------------------------------------------------------------
+Route: /login/
+Template: app/templates/login.html
+Stylesheet: app/static/css/style.css
+Authentication: Public
+
+Components:
+  - Login Form Container:
+    * Centered form with glassmorphism
+    * Gradient top border accent
+    * Input fields for username and password
+    * Submit button
+    * Footer link to signup
+
+  - Message System:
+    * Success messages (green)
+    * Error messages (red)
+
+Form Structure:
+  <form action="/login/" method="POST">
+    <div class="login-container">
+      <h1>LOGIN</h1>
+      <!-- Message display -->
+      <div class="input-group">
+        <label for="username">USERNAME</label>
+        <input type="text" name="username">
+      </div>
+      <div class="input-group">
+        <label for="password">PASSWORD</label>
+        <input type="password" name="password">
+      </div>
+      <button type="submit">LOG IN</button>
+      <div class="footer">
+        Don't have an account? <a href="/signup/">Sign up</a>
+      </div>
+    </div>
+  </form>
+
+Validation:
+  - Authenticates against Django User model
+  - Displays error for invalid credentials
+  - Redirects to dashboard on success
+
+
+3. SIGNUP PAGE (signup.html)
+--------------------------------------------------------------------------------
+Route: /signup/
+Template: app/templates/signup.html
+Stylesheet: app/static/css/style.css
+Authentication: Public
+
+Components:
+  - Signup Form Container:
+    * Email input field
+    * Username input field
+    * Password input field
+    * Submit button
+    * Divider with "OR" text
+    * Footer link to login
+
+Form Structure:
+  <form action="/signup/" method="POST">
+    <div class="login-container">
+      <h1>SIGN UP</h1>
+      <!-- Error display -->
+      <div class="input-group">
+        <label for="email">EMAIL</label>
+        <input type="email" name="email">
+      </div>
+      <div class="input-group">
+        <label for="username">Your Name</label>
+        <input type="text" name="username">
+      </div>
+      <div class="input-group">
+        <label for="password">PASSWORD</label>
+        <input type="password" name="password">
+      </div>
+      <button type="submit">SIGN IN</button>
+      <div class="divider">OR</div>
+      <div class="footer">
+        Already have an account? <a href="/login/">Log in</a>
+      </div>
+    </div>
+  </form>
+
+Validation Rules:
+  - Email must be unique
+  - Username must be unique
+  - All fields required
+  - Creates new User in Django auth system
+
+
+4. DASHBOARD PAGE (dash.html)
+--------------------------------------------------------------------------------
+Route: /dash/
+Template: app/templates/dash.html
+Stylesheet: app/static/css/dash.css
+Authentication: Login required
+
+Header Components:
+  - Logo Section:
+    * Logo image (52px height)
+    * Hover scale effect
+
+  - Site Tagline:
+    * "Handmade, Heartfelt" in gradient italic text
+
+  - User Info Section:
+    * Welcome message with username
+    * "My Cart" navigation button
+    * "Logout" button
+
+Navigation:
+  - View Products: Shows all available products
+  - Favourite Products: Shows user's favorited items
+
+Main Content Sections:
+
+All Products View:
+  <div class="product-grid">
+    <div class="product-card">
+      <img src="{{product.image.url}}" class="product-image">
+      <h3>{{product.name}}</h3>
+      <p>{{product.description}}</p>
+      <div class="product-price">₹ {{product.price}}/ unit*</div>
+      <div class="product-actions">
+        <button class="favorite-btn">🤍/❤️</button>
+        <a href="/add-to-cart/{{product.id}}" class="add-to-cart-btn">
+          Add to Cart
+        </a>
+      </div>
+    </div>
+  </div>
+
+Favourite Products View:
+  - Same product card structure
+  - Shows only favorited items
+  - Empty state message if no favorites
+
+Styling Details:
+  - Product grid: CSS Grid, 3 columns desktop, responsive
+  - Cards: White background, border, shadow
+  - Hover: Lift effect with gradient top border animation
+  - Footer: Centered text explaining "unit" measurement
+
+
+5. CART PAGE (cart.html)
+--------------------------------------------------------------------------------
+Route: /cart/
+Template: app/templates/cart.html
+Stylesheet: app/static/css/cart.css
+Authentication: Login required
+
+Components:
+
+Cart Header:
+  <div class="cart-header">
+    <h1>My Shopping Cart</h1>
+    <p>{{user.username}}'s Selected Products</p>
+  </div>
+
+Cart Items:
+  <div class="cart-item">
+    <div class="item-details">
+      <div class="product-card">
+        <img src="{{item.product.image.url}}" class="product-image">
+      </div>
+      <div class="item-name">{{item.product.name}}</div>
+    </div>
+    
+    <div class="item-quantity">
+      <form method="post" action="/update-cart/{{item.id}}">
+        <button name="action" value="decrease">-</button>
+        <input type="number" value="{{item.quantity}}" readonly>
+        <button name="action" value="increase">+</button>
+      </form>
+    </div>
+    
+    <div class="item-price">
+      <div class="unit-price">₹ {{item.product.price}}/ 250g</div>
+      <div class="total-price">₹ {{item.total_price}}</div>
+    </div>
+  </div>
+
+Cart Summary:
+  - Total price display
+  - Purchase button (all items count)
+  - Continue shopping link
+
+Empty Cart State:
+  - Cart icon (🛒)
+  - "Your Cart is Empty" heading
+  - Call-to-action to start shopping
+  - Continue shopping button
+
+Functionality:
+  - Increase/decrease quantity buttons
+  - Auto-delete when quantity reaches 0
+  - Real-time total calculation
+  - Back to dashboard link
+
+
+================================================================================
+DATABASE MODELS
+================================================================================
+
+1. PRODUCT MODEL
+--------------------------------------------------------------------------------
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=1)
+    category = models.CharField(max_length=100, choices=[...])
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    
+    def is_in_stock(self):
+        return self.quantity > 0
+
+Categories:
+  - Cookies
+  - Cakes
+  - Breads
+  - Pastries
+  - Chocolates
+  - Celebrations
+
+
+2. FAVORITE MODEL
+--------------------------------------------------------------------------------
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    
+    class Meta:
+        unique_together = ('user', 'product')
+
+
+3. CART MODEL
+--------------------------------------------------------------------------------
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product)
+    created_at = models.DateTimeField(default=timezone.now)
+
+
+4. CARTITEM MODEL
+--------------------------------------------------------------------------------
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('product', 'user')
+
+
+5. ORDER & ORDERITEM MODELS
+--------------------------------------------------------------------------------
+class Order(models.Model):
+    customer_name = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    
+    def save(self, *args, **kwargs):
+        # Decrements product quantity on order
+        if self.product.quantity < self.quantity:
+            raise ValueError("Insufficient stock")
+        self.product.quantity -= self.quantity
+        self.product.save()
+        super().save(*args, **kwargs)
+
+
+================================================================================
+URL ROUTING STRUCTURE
+================================================================================
+
+app/urls.py:
+  urlpatterns = [
+      path('', views.home, name='home'),
+      path('login/', views.login_view, name='login'),
+      path('signup/', views.signup, name='signup'),
+      path('dash/', views.dash, name='dash'),
+      path('logout/', views.logout_view, name='logout'),
+      path('cart/', views.cart, name='cart'),
+      path('add-to-cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+      path('update-cart/<int:item_id>/', views.update_cart, name='update_cart'),
+      path('toggle-favorite/<int:product_id>/', views.toggle_favorite, name='toggle_favorite'),
+  ]
+
+
+================================================================================
+IMPLEMENTATION STEPS
+================================================================================
+
+PHASE 1: PROJECT SETUP
+--------------------------------------------------------------------------------
+
+Step 1: Create Django Project
+  # Create virtual environment
+  python -m venv mnm
+  source mnm/bin/activate  # Linux/Mac
+  # or
+  mnm\Scripts\activate  # Windows
+
+  # Install Django
+  pip install django pillow python-dotenv
+
+  # Create project
+  django-admin startproject MeltnMunch .
+
+  # Create app
+  python manage.py startapp app
+
+Step 2: Configure Settings (MeltnMunch/settings.py)
+
+  INSTALLED_APPS = [
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+      'app',  # Add your app
+  ]
+
+  # Static files configuration
+  STATIC_URL = '/static/'
+  STATICFILES_DIRS = [BASE_DIR / 'app/static']
+
+  # Media files configuration
+  MEDIA_URL = '/media/'
+  MEDIA_ROOT = BASE_DIR / 'media'
+
+  # Login redirect
+  LOGIN_URL = 'login'
+  LOGIN_REDIRECT_URL = 'dash'
+
+Step 3: Configure URLs (MeltnMunch/urls.py)
+
+  from django.contrib import admin
+  from django.urls import path, include
+  from django.conf import settings
+  from django.conf.urls.static import static
+
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('app.urls')),
+  ]
+
+  if settings.DEBUG:
+      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+PHASE 2: DATABASE MODELS
+--------------------------------------------------------------------------------
+
+Step 1: Create Models
+  Create all models in app/models.py as defined in the Database Models section
+
+Step 2: Make Migrations
+  python manage.py makemigrations
+  python manage.py migrate
+
+Step 3: Create Superuser
+  python manage.py createsuperuser
+
+Step 4: Register Models in Admin (app/admin.py)
+  from django.contrib import admin
+  from .models import Product, Cart, CartItem, Favorite, Order, OrderItem
+
+  admin.site.register(Product)
+  admin.site.register(Cart)
+  admin.site.register(CartItem)
+  admin.site.register(Favorite)
+  admin.site.register(Order)
+  admin.site.register(OrderItem)
+
+
+PHASE 3: CREATE DIRECTORY STRUCTURE
+--------------------------------------------------------------------------------
+
+mkdir -p app/static/css
+mkdir -p app/static/js
+mkdir -p app/static/images
+mkdir -p app/templates
+mkdir -p media/products
+
+
+PHASE 4: IMPLEMENT VIEWS
+--------------------------------------------------------------------------------
+
+Create all view functions in app/views.py:
+
+1. home(request) - Public homepage
+2. login_view(request) - Handle login
+3. signup(request) - Handle registration
+4. dash(request) - Dashboard with products (@login_required)
+5. cart(request) - Shopping cart (@login_required)
+6. add_to_cart(request, product_id) - Add item to cart
+7. update_cart(request, item_id) - Update cart quantities
+8. toggle_favorite(request, product_id) - Toggle favorite status
+9. logout_view(request) - Handle logout
+
+
+PHASE 5: CREATE TEMPLATES
+--------------------------------------------------------------------------------
+
+Step 1: Create Base Structure
+Each template should include:
+  - {% load static %} at the top
+  - Link to appropriate CSS file
+  - CSRF token for forms
+  - Proper form actions
+
+Step 2: Implement Each Template
+
+home.html:
+  - Full-screen hero section
+  - Background image with overlay
+  - Centered welcome box
+  - Login/Signup buttons
+
+login.html:
+  - Centered login form
+  - Username and password fields
+  - Error/success message display
+  - Link to signup page
+
+signup.html:
+  - Centered signup form
+  - Email, username, password fields
+  - Error message display
+  - Link to login page
+
+dash.html:
+  - Header with logo, tagline, user info
+  - Navigation tabs (Products/Favorites)
+  - Product grid layout
+  - Conditional rendering based on view
+  - Empty state messages
+
+cart.html:
+  - Back to dashboard button
+  - Cart header with user info
+  - Cart item list with quantity controls
+  - Cart summary with total
+  - Empty cart state
+
+
+PHASE 6: IMPLEMENT STYLESHEETS
+--------------------------------------------------------------------------------
+
+Step 1: Define CSS Variables
+In each CSS file, start with the root variables:
+
+:root {
+  --soft-cream: #f8f6f0;
+  --warm-beige: #f0ede6;
+  --muted-sage: #8b9472;
+  --dusty-brown: #7a5f52;
+  --charcoal: #2d2d2d;
+  --deep-brown: #5c453a;
+  --soft-white: #ffffff;
+  --gentle-shadow: rgba(122, 95, 82, 0.15);
+  --border-light: rgba(122, 95, 82, 0.25);
+  --accent-sage: #6b7a5a;
+  --text-muted: #5a5a5a;
+  --error-red: #d63031;
+  --success-green: #00b894;
+}
+
+Step 2: Create Stylesheets
+
+stylee.css (Home page):
+  - Full viewport background with image
+  - Gradient overlay
+  - Centered content box with glassmorphism
+  - Responsive button group
+  - Hero heading with gradient text
+
+style.css (Login/Signup):
+  - Centered login container
+  - Glassmorphism effect with backdrop blur
+  - Gradient top border accent
+  - Input fields with focus states
+  - Button hover effects
+  - Message styling (error/success)
+  - Footer link styling
+
+dash.css (Dashboard):
+  - Sticky header with glassmorphism
+  - Logo and site tagline styling
+  - User info badges
+  - Navigation button states
+  - Product grid (CSS Grid)
+  - Product cards with hover effects
+  - Favorite button (heart icon)
+  - Add to cart button
+  - Empty state styling
+  - Footer with unit explanation
+
+cart.css (Cart page):
+  - Back button styling
+  - Cart header with gradient accent
+  - Cart item layout (flexbox)
+  - Product image section
+  - Quantity controls (+/- buttons)
+  - Price display (unit and total)
+  - Cart summary container
+  - Checkout button
+  - Empty cart state with icon
+  - Continue shopping link
+
+Step 3: Make Responsive
+Add media queries for mobile:
+
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cart-item {
+    flex-direction: column;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  /* Additional mobile-specific adjustments */
+}
+
+
+PHASE 7: ADD IMAGES
+--------------------------------------------------------------------------------
+
+Required Images:
+1. home_bg.jpg - Homepage background
+2. bgo.jpg - Login/Signup background
+3. mnm_logo.jpg - Dashboard logo (52px height recommended)
+
+Place images in app/static/images/
+
+Product Images:
+  - Upload through Django admin
+  - Stored in media/products/
+  - Fallback: "📷 No Image" placeholder
+
+
+PHASE 8: TESTING & REFINEMENT
+--------------------------------------------------------------------------------
+
+Step 1: Test User Flows
+1. Homepage → Signup → Login → Dashboard
+2. Browse products → Add to favorites
+3. Add to cart → Update quantities
+4. Remove items from cart
+5. Logout and re-login
+
+Step 2: Test Edge Cases
+  - Empty product list
+  - Empty favorites
+  - Empty cart
+  - Duplicate signups
+  - Invalid login credentials
+  - Quantity edge cases (0, negative)
+
+Step 3: Browser Testing
+  - Chrome/Edge (Chromium)
+  - Firefox
+  - Safari
+  - Mobile browsers
+
+
+================================================================================
+COMPONENT BREAKDOWN
+================================================================================
+
+REUSABLE COMPONENTS
+--------------------------------------------------------------------------------
+
+1. PRODUCT CARD
+Used in: Dashboard (Products & Favorites)
+
+<div class="product-card">
+  <img src="{{product.image.url}}" class="product-image" alt="{{product.name}}">
+  <h3>{{product.name}}</h3>
+  <p>{{product.description}}</p>
+  <div class="product-price">₹ {{product.price}}/ unit*</div>
+  <div class="product-actions">
+    <form method="post" action="{% url 'toggle_favorite' product.id %}">
+      {% csrf_token %}
+      <button type="submit" class="favorite-btn">
+        {% if product.id in user_favorites %}❤️{% else %}🤍{% endif %}
+      </button>
+    </form>
+    <a href="{% url 'add_to_cart' product.id %}" class="add-to-cart-btn">
+      Add to Cart
+    </a>
+  </div>
+</div>
+
+Styling:
+  - White background
+  - Border: 1px solid border-light
+  - Border-radius: 16px
+  - Padding: 2rem
+  - Shadow: gentle-shadow
+  - Hover: Transform up, enhanced shadow, gradient top border reveal
+
+
+2. MESSAGE BOX
+Used in: Login, Signup
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="{% if message.tags == 'success' %}success-message{% else %}error-message{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+Styling:
+  - Success: Light green background, green border and text
+  - Error: Light red background, red border and text
+  - Padding: 1rem 1.25rem
+  - Border-radius: 12px
+  - Font-weight: 500
+
+
+3. NAVIGATION BUTTON
+Used in: Dashboard header, Dashboard tabs
+
+<a href="{% url 'cart' %}" class="nav-btn">My Cart</a>
+
+Styling:
+  - Transparent background (default)
+  - Border: 1px solid transparent
+  - Padding: 0.7rem 1.5rem
+  - Border-radius: 20px
+  - Hover: White background, border visible
+  - Active: Dusty-brown background, white text
+
+
+4. CART ITEM ROW
+Used in: Cart page
+
+<div class="cart-item">
+  <div class="item-details">...</div>
+  <div class="item-quantity">...</div>
+  <div class="item-price">...</div>
+</div>
+
+Styling:
+  - Flexbox layout
+  - White background with glassmorphism
+  - Padding: 2rem
+  - Border-radius: 16px
+  - Shadow: gentle-shadow
+  - Border: 1px solid border-light
+
+
+================================================================================
+RESPONSIVE DESIGN BREAKPOINTS
+================================================================================
+
+DESKTOP (>1024px)
+  - Product grid: 3 columns
+  - Maximum content width: 1200px
+  - Full header layout
+  - Side-by-side cart item layout
+
+TABLET (768px - 1024px)
+  - Product grid: 2 columns
+  - Maximum content width: 960px
+  - Adjusted padding
+  - Compressed header
+
+MOBILE (<768px)
+  - Product grid: 1 column
+  - Full-width content
+  - Stack cart item vertically
+  - Stack buttons vertically
+  - Reduced font sizes
+  - Collapsed navigation
+
+
+================================================================================
+DEPLOYMENT CHECKLIST
+================================================================================
+
+BEFORE DEPLOYMENT
+--------------------------------------------------------------------------------
+  [ ] Set DEBUG = False in settings.py
+  [ ] Configure ALLOWED_HOSTS
+  [ ] Set up proper SECRET_KEY from environment
+  [ ] Configure static files collection
+  [ ] Set up production database (PostgreSQL recommended)
+  [ ] Configure media file storage (S3, Cloudinary, etc.)
+  [ ] Set up environment variables (.env file)
+  [ ] Add security middleware
+  [ ] Configure HTTPS/SSL
+  [ ] Set up logging
+  [ ] Create requirements.txt
+  [ ] Test all user flows
+  [ ] Cross-browser testing
+  [ ] Mobile responsiveness check
+
+PRODUCTION SETTINGS
+--------------------------------------------------------------------------------
+# MeltnMunch/settings.py (Production)
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DEBUG = False
+SECRET_KEY = os.environ.get('SECRET_KEY')
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
+
+# HTTPS Settings
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+
+
+================================================================================
+ADDITIONAL FEATURES TO CONSIDER
+================================================================================
+
+PHASE 2 ENHANCEMENTS
+--------------------------------------------------------------------------------
+
+1. User Profile Page:
+   - Edit user information
+   - View order history
+   - Manage addresses
+
+2. Checkout Process:
+   - Address form
+   - Payment integration
+   - Order confirmation
+
+3. Product Reviews:
+   - Rating system
+   - Review comments
+   - Review moderation
+
+4. Search & Filter:
+   - Product search bar
+   - Category filters
+   - Price range filter
+   - Sort options
+
+5. Admin Dashboard:
+   - Product management interface
+   - Order management
+   - User management
+   - Analytics dashboard
+
+6. Email Notifications:
+   - Order confirmations
+   - Password reset
+   - Welcome emails
+
+7. Social Features:
+   - Share products
+   - Wishlist sharing
+   - Social media integration
+
+
+================================================================================
+DESIGN PRINCIPLES
+================================================================================
+
+VISUAL HIERARCHY
+--------------------------------------------------------------------------------
+1. Most important: CTAs (Add to Cart, Checkout)
+2. Secondary: Navigation, Product names
+3. Tertiary: Descriptions, helper text
+
+CONSISTENCY
+--------------------------------------------------------------------------------
+  - Consistent spacing (8px base unit)
+  - Consistent border radius
+  - Consistent button styles
+  - Consistent color usage
+  - Consistent typography scale
+
+ACCESSIBILITY
+--------------------------------------------------------------------------------
+  - Color contrast ratios meet WCAG AA standards
+  - Focus states for all interactive elements
+  - Semantic HTML structure
+  - Alt text for images
+  - Keyboard navigation support
+
+PERFORMANCE
+--------------------------------------------------------------------------------
+  - Optimized images (WebP format)
+  - Lazy loading for images
+  - Minified CSS/JS
+  - Efficient database queries
+  - Caching strategies
+
+
+================================================================================
+SECURITY CONSIDERATIONS
+================================================================================
+
+1. CSRF Protection: Django's CSRF middleware enabled
+2. SQL Injection: Using Django ORM (parameterized queries)
+3. XSS Protection: Template auto-escaping enabled
+4. Authentication: Django's built-in auth system
+5. Password Hashing: PBKDF2 algorithm (Django default)
+6. Session Security: Secure cookies in production
+7. File Upload: Validate file types and sizes
+8. Rate Limiting: Consider adding for login attempts
+
+
+================================================================================
+DATABASE RELATIONSHIPS
+================================================================================
+
+User (Django Auth)
+  ├─── CartItem (One-to-Many)
+  ├─── Favorite (One-to-Many)
+  └─── Order (One-to-Many)
+
+Product
+  ├─── CartItem (One-to-Many)
+  ├─── Favorite (One-to-Many)
+  └─── OrderItem (One-to-Many)
+
+Order
+  └─── OrderItem (One-to-Many)
+
+
+================================================================================
+DEVELOPMENT TOOLS
+================================================================================
+
+REQUIRED
+--------------------------------------------------------------------------------
+  - Python 3.12+
+  - Django 5.2.8
+  - Pillow (image handling)
+  - SQLite3 (development)
+
+RECOMMENDED
+--------------------------------------------------------------------------------
+  - Django Debug Toolbar
+  - Django Extensions
+  - Black (code formatting)
+  - Flake8 (linting)
+  - Git (version control)
+
+
+================================================================================
+MAINTENANCE GUIDELINES
+================================================================================
+
+REGULAR TASKS
+--------------------------------------------------------------------------------
+1. Database backups (daily)
+2. Log monitoring
+3. Security updates
+4. Dependency updates
+5. Performance monitoring
+
+CODE QUALITY
+--------------------------------------------------------------------------------
+1. Follow PEP 8 style guide
+2. Write docstrings for functions
+3. Add comments for complex logic
+4. Keep functions small and focused
+5. Use meaningful variable names
+
+
+================================================================================
+FINAL NOTES
+================================================================================
+
+This design guide provides a complete blueprint for the MeltnMunch project.
+Follow the implementation steps in order, and refer to the component breakdown
+for consistent styling across the application.
+
+The color palette creates a warm, inviting atmosphere perfect for a handmade
+bakery brand. The typography and spacing provide excellent readability and a
+modern, clean aesthetic.
+
+Remember to test thoroughly at each phase before moving to the next. Good luck 
+with your project!
+
+
+--------------------------------------------------------------------------------
+Last Updated: February 18, 2026
+Version: 1.0
+Author: MeltnMunch Development Team
+================================================================================

@@ -23,8 +23,14 @@
                 {% for item in cart_items %}
                     <div class="cart-item">
                         <div class="item-details">
+                            <div class="product-card">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                                {% else %}
+                                    <div class="no-image">No Image</div>
+                                {% endif %}
+                            </div>
                             <div class="item-name">{{ item.product.name }}</div>
-                            <div class="item-description">{{ item.product.description }}</div>
                         </div>
                         
                         <div class="item-quantity">
