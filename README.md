@@ -2,6 +2,12 @@
 
 > A beautiful, minimalist e-commerce platform for handmade bakery products built with Django.
 
+##  Complete Technical Documentation
+
+For full project internals (architecture, routes, models, templates, setup, migration history, and current technical gaps), see:
+
+- [`PROJECT_DOCUMENTATION.md`](PROJECT_DOCUMENTATION.md)
+
 ##  Table of Contents
 
 - [About](#about)
