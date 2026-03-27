@@ -3,7 +3,7 @@
 This document is the comprehensive technical reference for the MeltnMunch project, based on the current codebase state in this workspace.
 
 - Project type: Django monolith (single project + single app)
-- Domain: Handmade bakery e-commerce portal
+- Domain: E- Commerce Portal for Confectionaries.
 - Primary stack: Django, SQLite, Django templates, custom CSS
 - App architecture style: Server-rendered MVT (Model-View-Template)
 
@@ -115,8 +115,7 @@ MNM/
 ```
 
 Notes:
-- `mnm/` in root appears to be a local virtual environment folder.
-- `products/` and `src/` folders exist but are not wired into Django runtime.
+- `mnm/` in root is a local virtual environment folder.
 
 ---
 
@@ -144,19 +143,6 @@ Notes:
 ### Media configuration
 - `MEDIA_URL = '/media/'`
 - `MEDIA_ROOT = BASE_DIR / 'media'`
-
-### Environment variables
-- `load_dotenv()` is called
-- `SECRET_KEY = os.getenv('SECRET_KEY')`
-- `DEBUG = os.getenv('DEBUG') == 'True'`
-
-Expected `.env` keys:
-- `SECRET_KEY`
-- `DEBUG`
-
-### Current caution
-- `ALLOWED_HOSTS = []`, suitable for local development only.
-
 ---
 
 ## 5) URL Routing Map
@@ -409,23 +395,6 @@ Only `Product` is currently registered in admin; other models are not exposed th
 
 ---
 
-## 11) Migration History and Schema Evolution
-
-## 11.1 Summary Timeline
-
-1. `0001_initial`
-   - Created custom `User` model (later removed)
-2. `0002_...`
-   - Added `CartItem`, `Product`, switched to Django auth user
-3. `0003_...`
-   - Renamed cart date field, introduced `Cart`, adjusted defaults/constraints
-4. `0004_...`
-   - Added `Favorite`; changed `Product.name` max length
-5. `0005_...`
-   - Added `Order`, `OrderItem`; removed `Product.created_by`; added category/image/quantity
-6. `0006_...`
-   - Made `Product.image` nullable
-
 ## 11.2 Important implication
 
 Because `created_by` was removed in migration `0005`, any code still trying to set `created_by` on product creation is stale and non-functional.
@@ -446,9 +415,7 @@ From `requirement.txt`:
 - python-dotenv==1.2.1
 - sqlparse==0.5.3
 - tzdata==2025.2
-
-Runtime note:
-- Product image uploads require Pillow at runtime for image handling, but Pillow is not explicitly listed in current dependency files.
+- pillow-12.1.1
 
 ## 12.2 Python version
 - `Pipfile` requires Python `3.14`.
@@ -523,36 +490,6 @@ python manage.py runserver
 
 ---
 
-## 15) Known Gaps, Risks, and Technical Debt
-
-This section documents current code-level mismatches and risks.
-
-1. Product creation mismatch in `add` view
-   - View uses `created_by` field removed from model/migrations.
-   - Result: add-product path fails.
-
-2. Duplicate decorator on dashboard view
-   - `dash` has `@login_required` repeated twice.
-   - Functional impact: minimal; readability/maintenance issue.
-
-3. Cart route mutation via link
-   - `add_to_cart` is typically triggered through anchor links (GET-like behavior).
-   - Better practice: use POST form for state-changing action.
-
-4. Partial dependency declaration
-   - Pillow needed for image handling but not fully declared in dependency files.
-
-5. Empty `ALLOWED_HOSTS`
-   - Needs production-safe host configuration before deployment.
-
-6. No automated tests implemented
-   - `app/tests.py` currently contains only boilerplate.
-
-7. Order flow incomplete
-   - Checkout button is a placeholder alert only.
-
----
-
 ## 16) Security and Production Readiness Notes
 
 Before production deployment:
@@ -569,9 +506,6 @@ Before production deployment:
 ---
 
 ## 17) Testing Status and Recommendations
-
-Current status:
-- No feature tests are implemented.
 
 Suggested test modules:
 - Auth flow tests (signup/login/logout)
@@ -626,17 +560,3 @@ Priority 3 (quality):
 
 - `README.md` — project introduction and basic setup
 - `DESIGN_GUIDE.md` — deep UI/UX design blueprint
-- `DESIGN_GUIDE_MNM.txt` — text format of design guide
-
----
-
-## 21) Documentation Scope and Accuracy Statement
-
-This document describes the current code behavior and structure as observed directly from:
-
-- settings, URLs, models, views, templates, admin config
-- migration history
-- static assets and style files
-- dependency declarations
-
-Where intended behavior and implemented behavior differ, this document prioritizes implemented behavior and flags the differences explicitly in “Known Gaps, Risks, and Technical Debt.”
